@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criptografia com Cifra de César</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .resultado {
+            margin-top: 20px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Criptografia com Cifra de César</h1>
+
+        <textarea id="mensagem" placeholder="Digite sua mensagem..."></textarea>
+        <input type="number" id="chave" placeholder="Digite a chave (1 a 25)" min="1" max="25">
+        <button onclick="criptografar()">Criptografar</button>
+        <button onclick="descriptografar()">Descriptografar</button>
+
+        <div class="resultado" id="resultado"></div>
+    </div>
+
+    <script>
+        function criptografar() {
+            const mensagem = document.getElementById("mensagem").value;
+            const chave = parseInt(document.getElementById("chave").value);
+            let resultado = "";
+
+            for (let i = 0; i < mensagem.length; i++) {
+                let c = mensagem[i];
+                if (c === ' ') {
+                    resultado += ' ';
+                } else if (c.match(/[a-zA-Z]/)) {
+                    let base = c === c.toLowerCase() ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+                    let pos = (c.charCodeAt(0) - base + chave) % 26;
+                    resultado += String.fromCharCode(base + pos);
+                } else {
+                    resultado += c;
+                }
+            }
+
+            document.getElementById("resultado").innerText = "Criptografado: " + resultado;
+        }
+
+        function descriptografar() {
+            const mensagem = document.getElementById("mensagem").value;
+            const chave = parseInt(document.getElementById("chave").value);
+            let resultado = "";
+
+            for (let i = 0; i < mensagem.length; i++) {
+                let c = mensagem[i];
+                if (c === ' ') {
+                    resultado += ' ';
+                } else if (c.match(/[a-zA-Z]/)) {
+                    let base = c === c.toLowerCase() ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+                    let pos = (c.charCodeAt(0) - base - chave + 26) % 26;
+                    resultado += String.fromCharCode(base + pos);
+                } else {
+                    resultado += c;
+                }
+            }
+
+            document.getElementById("resultado").innerText = "Descriptografado: " + resultado;
+        }
+    </script>
+</body>
+</html>
